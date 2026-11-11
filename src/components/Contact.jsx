@@ -1,89 +1,85 @@
-import { useReducedMotion } from 'framer-motion';
-import { motion } from 'framer-motion';
-import { Mail, Send, GitBranch } from 'lucide-react';
+import { useReducedMotion, motion } from "framer-motion";
+import { Mail, Send, GitBranch } from "lucide-react";
 
 export default function Contact() {
-  const prefersReducedMotion = useReducedMotion();
+  const reduced = useReducedMotion();
 
-  const containerVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 24 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: 'easeOut' },
-    },
+  const fade = {
+    initial: reduced ? false : { opacity: 0, y: 24 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, amount: 0.2 },
+    transition: { duration: 0.6, ease: "easeOut" },
   };
 
   return (
-    <section id="contact" className="relative py-20 px-4 overflow-hidden">
-      {/* Background Glow */}
+    <section id="contact" className="relative overflow-hidden px-6 py-28">
+      {/* свечение */}
       <div
-        className="absolute top-1/2 left-1/2 w-96 h-96 pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(57,255,20,0.04) 0%, transparent 70%)',
-          transform: 'translate(-50%, -50%)',
-        }}
         aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-1/2"
+        style={{
+          width: "600px",
+          height: "600px",
+          background:
+            "radial-gradient(circle, rgba(57,255,20,0.04) 0%, transparent 70%)",
+          transform: "translate(-50%,-50%)",
+        }}
       />
 
-      {/* Content */}
-      <motion.div
-        className="relative max-w-2xl mx-auto text-center"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {/* Eyebrow Label */}
-        <div className="label mb-4 text-var(--color-gray) justify-center">// контакт</div>
+      <motion.div {...fade} className="relative mx-auto max-w-2xl text-center">
+        <div className="label mb-5 flex justify-center">// контакт</div>
 
-        {/* Heading */}
-        <h2 className="text-5xl font-display font-bold mb-6 text-var(--color-white)">
+        <h2
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(2rem, 5vw, 3.5rem)",
+            fontWeight: 700,
+            lineHeight: 1.1,
+            letterSpacing: "-0.02em",
+            color: "var(--color-white)",
+          }}
+        >
           Есть задача?
         </h2>
 
-        {/* Subtitle */}
-        <p className="text-lg font-body text-var(--color-gray) mb-12 leading-relaxed">
-          Опишите проект в паре предложений — отвечу с конкретикой.
+        <p
+          className="mx-auto mt-5 max-w-md text-lg leading-relaxed"
+          style={{ color: "var(--color-gray)" }}
+        >
+          Опишите проект в паре предложений — отвечу с конкретикой: что можно
+          сделать, за сколько и какие есть риски.
         </p>
 
-        {/* Contact Links */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-          {/* Email Button */}
-          <a
-            href="mailto:pavlovka0109@gmail.com"
-            className="btn btn-primary inline-flex items-center justify-center gap-2 min-h-11 px-6 bg-var(--color-green) text-var(--color-black) font-mono font-semibold rounded-lg hover:bg-opacity-90 transition-all"
-          >
-            <Mail size={20} />
-            <span>Mail</span>
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <a href="mailto:pavlovka0109@gmail.com" className="btn btn-primary">
+            <Mail size={16} aria-hidden="true" />
+            pavlovka0109@gmail.com
           </a>
-
-          {/* Telegram Button */}
           <a
             href="https://t.me/dota2_developer"
             target="_blank"
             rel="noreferrer noopener"
-            className="btn btn-outline inline-flex items-center justify-center gap-2 min-h-11 px-6 border border-var(--color-green) text-var(--color-green) font-mono font-semibold rounded-lg hover:bg-var(--color-green) hover:text-var(--color-black) transition-all"
+            className="btn btn-outline"
           >
-            <Send size={20} />
-            <span>Telegram</span>
+            <Send size={16} aria-hidden="true" />
+            telegram
           </a>
-
-          {/* GitHub Button */}
           <a
             href="https://github.com/Nerykery"
             target="_blank"
             rel="noreferrer noopener"
-            className="btn btn-outline inline-flex items-center justify-center gap-2 min-h-11 px-6 border border-var(--color-green) text-var(--color-green) font-mono font-semibold rounded-lg hover:bg-var(--color-green) hover:text-var(--color-black) transition-all"
+            className="btn btn-outline"
           >
-            <GitBranch size={20} />
-            <span>GitHub</span>
+            <GitBranch size={16} aria-hidden="true" />
+            github
           </a>
         </div>
 
-        {/* Footer Note */}
-        <p className="font-mono text-sm text-var(--color-gray)">
-          Обычно отвечаю в течение дня
+        <p
+          className="mt-8 font-mono text-xs"
+          style={{ color: "var(--color-green-dim)" }}
+        >
+          обычно отвечаю в течение дня
         </p>
       </motion.div>
     </section>

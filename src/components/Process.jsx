@@ -1,99 +1,106 @@
-import { useReducedMotion } from 'framer-motion';
-import { motion } from 'framer-motion';
-import { PRINCIPLES } from '../content.js';
+import { motion, useReducedMotion } from "framer-motion";
+import { PRINCIPLES } from "../content.js";
 
 export default function Process() {
-  const prefersReducedMotion = useReducedMotion();
+  const reduced = useReducedMotion();
 
-  const containerVariants = {
+  const container = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.1,
-        delayChildren: 0,
-      },
+      transition: { staggerChildren: reduced ? 0 : 0.1 },
     },
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: prefersReducedMotion ? 0 : 12 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: 'easeOut' },
-    },
+  const item = {
+    hidden: reduced ? false : { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
-    <section id="process" className="py-20 px-4">
-      <div className="max-w-7xl mx-auto">
-        {/* Eyebrow Label */}
-        <div className="label mb-4 text-var(--color-gray)">// подход</div>
+    <section id="process" className="px-6 py-20">
+      <div className="mx-auto max-w-5xl">
+        <div className="label mb-4">// подход</div>
 
-        {/* Heading */}
-        <h2 className="text-5xl font-display font-bold mb-16 text-var(--color-white)">
+        <h2
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)",
+            fontWeight: 700,
+            lineHeight: 1.15,
+            letterSpacing: "-0.015em",
+            color: "var(--color-white)",
+            marginBottom: "3rem",
+          }}
+        >
           От идеи до продакшена
         </h2>
 
-        {/* Cards Grid with Arrow Connectors */}
-        <div className="relative">
-          <motion.div
-            className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {PRINCIPLES.map((principle, index) => (
-              <motion.div
-                key={principle.num}
-                variants={itemVariants}
-                className="card relative p-6 bg-var(--color-surface) border border-var(--color-border) rounded-lg"
+        <motion.ol
+          variants={container}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
+          className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
+        >
+          {PRINCIPLES.map((p, i) => (
+            <motion.li key={p.num} variants={item} className="card relative p-6">
+              <span
+                className="block font-mono leading-none"
+                style={{
+                  fontSize: "2.5rem",
+                  fontWeight: 700,
+                  color: "var(--color-green)",
+                  marginBottom: "1rem",
+                  opacity: 0.6,
+                }}
+                aria-hidden="true"
               >
-                {/* Number */}
-                <div className="font-mono text-5xl font-bold text-var(--color-green) mb-4 leading-none">
-                  {principle.num}
-                </div>
+                {p.num}
+              </span>
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 600,
+                  fontSize: "1rem",
+                  color: "var(--color-white)",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                {p.title}
+              </h3>
+              <p
+                style={{
+                  fontSize: "0.875rem",
+                  lineHeight: 1.6,
+                  color: "var(--color-gray)",
+                }}
+              >
+                {p.desc}
+              </p>
 
-                {/* Title */}
-                <h3 className="text-lg font-display font-semibold text-var(--color-white) mb-3">
-                  {principle.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm font-body text-var(--color-gray) leading-relaxed">
-                  {principle.desc}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Arrow Connectors - Desktop Only */}
-          {!prefersReducedMotion && (
-            <div className="hidden lg:block absolute inset-0 pointer-events-none">
-              {[0, 1, 2].map((i) => (
+              {/* стрелка между шагами — только desktop */}
+              {i < PRINCIPLES.length - 1 && (
                 <svg
-                  key={`arrow-${i}`}
-                  className="absolute top-12 text-var(--color-green)"
-                  style={{
-                    left: `calc(25% * (${i} + 1) - 12px)`,
-                    width: '24px',
-                    height: '24px',
-                    opacity: 0.3,
-                  }}
+                  aria-hidden="true"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
-                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-3 top-10 hidden lg:block"
+                  style={{
+                    width: "1.25rem",
+                    height: "1.25rem",
+                    color: "var(--color-green)",
+                    opacity: 0.3,
+                  }}
                 >
-                  <polyline points="9 18 15 12 9 6"></polyline>
+                  <polyline points="9 18 15 12 9 6" />
                 </svg>
-              ))}
-            </div>
-          )}
-        </div>
+              )}
+            </motion.li>
+          ))}
+        </motion.ol>
       </div>
     </section>
   );

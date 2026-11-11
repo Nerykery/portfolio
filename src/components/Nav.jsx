@@ -116,9 +116,8 @@ export default function Nav() {
       {/* progress bar */}
       <motion.div
         aria-hidden="true"
-        style={{ scaleX: reduced ? scrollYProgress : progress }}
+        style={{ scaleX: reduced ? scrollYProgress : progress, background: "var(--color-green)", transformOrigin: "left center" }}
         className="scroll-bar h-px w-full"
-        css={{ background: "var(--color-green)", transformOrigin: "left center" }}
       />
 
       {/* mobile menu */}
